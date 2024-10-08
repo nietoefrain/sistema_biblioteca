@@ -1,17 +1,23 @@
 from libro import Libro
+
 class Usuario:
-    def __init__(self, nombre, id):
-        self.__nombre = nombre
+    def __init__(self, id, nombre):
         self.__id = id
-        self.__libroPrestado = []
-        
-    def librodefsolicitar_prestamo(self, libro):
-        if not libro.esta_prestado():
-            libro.prestar()  # Cambia el estado del libro a prestado
-            self.__libros_prestados.append(libro)  # Añade el libro a la lista de libros prestadosreturnf'El usuario "{self.__nombre}" ha tomado prestado el libro "{libro.detalles()["Titulo"]}".'else:
-            returnf'El libro "{libro.detalles()["Titulo"]}" ya está prestado y no puede ser tomado por "{self.__nombre}".'
-  
-  
-    # def prestamo(self, libro):
-    #     if not libroPrestado 
-    #     Libro.prestado()
+        self.__nombre = nombre
+        self.__prestamos = []
+
+    def solicitar_prestamo(self, libro):
+        if libro.prestar():
+            self.__prestamos.append(libro)
+            return True
+        return False
+
+    def devolver_libro(self, libro):
+        if libro in self.__prestamos:
+            libro.devolver()
+            self.__prestamos.remove(libro)
+            return True
+        return False
+
+    def obtener_prestamos(self):
+        return [libro.obtener_info() for libro in self.__prestamos]
